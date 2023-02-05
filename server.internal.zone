@@ -1,0 +1,16 @@
+$TTL 2d
+
+$ORIGIN server.internal.
+
+@           IN     SOA    ns.server.internal. info.server.internal (
+                            2022121900     ; serial
+                            12h            ; refresh
+                            15m            ; retry
+                            3w             ; expire
+                            2h )           ; minimum TTL
+            IN  NS  ns.server.internal.
+
+ns          IN  A   192.168.197.100 ; ip adddress of the nameserver
+
+server.internal.  IN  A   192.168.197.100 ; ip address of the server
+*.server.internal. IN A   192.168.197.100 ; ip address of the server

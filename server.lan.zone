@@ -1,0 +1,16 @@
+$TTL 2d
+
+$ORIGIN server.lan.
+
+@           IN     SOA    ns.server.lan. info.server.lan (
+                            2022121900     ; serial
+                            12h            ; refresh
+                            15m            ; retry
+                            3w             ; expire
+                            2h )           ; minimum TTL
+            IN  NS  ns.server.lan.
+
+ns          IN  A   192.168.197.100 ; ; server.lan ip adddress
+
+server.lan.  IN  A   192.168.197.100; ; server.lan ip adddress
+*.server.lan. IN A   192.168.197.100 ; ; server.lan ip adddress

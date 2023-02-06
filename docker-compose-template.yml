@@ -1,0 +1,50 @@
+version: '3.2'
+services:
+
+    bind9:
+        container_name: dns
+        image: ubuntu/bind9:latest
+        environment:
+            - BIND9_USER=root
+            - TZ=America/Managua
+        ports:
+            - "53:53/tcp"
+            - "53:53/udp"
+        volumes:
+            - ./docker/proxy/config:/etc/bind
+            - ./docker/proxy/cache:/var/cache/bind
+            - ./docker/proxy/records:/var/lib/bind
+        restart: unless-stopped
+
+        networks:
+            server-internal:
+                ipv4_address: 172.90.0.2
+
+    #REVERSE PROXY
+    reverse-proxy:
+        image: "cswni/nginx-proxy"
+        container_name: "proxy"
+        volumes:
+            - "/run/docker.sock:/tmp/docker.sock:ro"
+            - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf #NGINX SETTINGS
+        restart: "always"
+        networks:
+            server-internal:
+                ipv4_address: 172.90.0.3
+        ports:
+            - "80:80"
+            - "443:443"
+
+    
+    
+
+networks:
+    server-internal:
+        driver: bridge
+        ipam:
+            config:
+                -   subnet: 172.90.0.1/16
+
+volumes:
+    vol_tinker:
+        external: true
